@@ -1,0 +1,27 @@
+package com.kuang.utils;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
+import java.text.SimpleDateFormat;
+
+public class JsonUtils {
+    //重载
+    public static String getJson(Object object) throws JsonProcessingException {
+        return getJson(object, "yyyy-MM-dd HH:mm:ss");
+    }
+    public static String getJson(Object object, String dateFormate) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        //自定义日期的格式
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormate);
+        mapper.setDateFormat(sdf);
+        try {
+            return mapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+}
